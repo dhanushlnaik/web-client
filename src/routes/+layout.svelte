@@ -5,7 +5,7 @@
 
 <div class="bg-[#fad6ca] text-[#2a4fb2] min-h-screen">
 	<Navbar />
-	<div class="pt-[8rem]">
+	<div class="sm:pt-[6rem] pt-[4rem]">
 		<slot />
 	</div>
 </div>

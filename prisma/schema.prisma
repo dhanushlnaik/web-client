@@ -40,13 +40,14 @@ model Session {
 model User {
   id            String    @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String   @unique
   emailVerified DateTime?
   kycVerified   Boolean   @default(false)
   image         String?
   accounts      Account[]
   sessions      Session[]
-  Post          Post[]
+  Post          Post[] 
+  @@index([email])
 }
 
 model VerificationToken {
@@ -60,7 +61,7 @@ model VerificationToken {
 model Post {
   id        String  @id @default(cuid())
   category     String
-  content   String?
+  description   String?
   published Boolean @default(false)
   author    User?   @relation(fields: [authorId], references: [id])
   authorId  String? 

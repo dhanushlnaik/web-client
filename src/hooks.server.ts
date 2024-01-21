@@ -5,7 +5,7 @@ import { GOOGLE_AUTH_CLIENT_ID, GOOGLE_AUTH_CLIENT_SECRET, AUTH_SECRET } from '$
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient();
+export const prisma = new PrismaClient();
 export const handle = SvelteKitAuth(async (event) => {
 	const authOptions = {
 		providers: [

@@ -1,18 +1,33 @@
 <script>
 	import AuthButton from '../Auth/AuthButton.svelte';
+	import { Home } from 'lucide-svelte';
 </script>
 
 <div
-	class="flex justify-between fixed w-full py-6 sm:px-8 px-2 h-[6rem] font-semibold bg-[#fad6ca] items-center"
+	class="sm:flex hidden justify-between fixed w-full py-6 sm:px-8 px-2 h-[6rem] font-semibold bg-[#fad6ca] items-center"
 >
-	<a href="https://finiteloop.co.in" target="_blank">
+	<a href="/">
 		<span class="flex items-center gap-x-2">
 			<img src="/flc_logo_crop.png" alt="flc_Logo" class="md:h-16 h-12" />
 			<h3 class="sm:text-2xl text-md font-bold">Finite Loop Club</h3>
 		</span>
 	</a>
-	<!-- <a href="https://www.instagram.com/p/C2ES0MOv7tK/" target="_blank">
-		<h3 class="sm:text-2xl text-md font-bold">HackLoop</h3>
-	</a> -->
 	<AuthButton />
+</div>
+
+<div class="w-full sm:hidden flex">
+	<div class="w-full h-[4rem] bg-two-700 flex items-center px-4 fixed top-0">
+		<a href="/">
+			<span class="flex items-center gap-x-2">
+				<img src="/flc_logo_crop.png" alt="flc_Logo" class="md:h-16 h-12" />
+				<h3 class="sm:text-2xl text-white text-md font-bold">Finite Loop Club</h3>
+			</span>
+		</a>
+	</div>
+	<div class="w-full h-[4rem] bg-two-700 fixed bottom-0 flex items-center px-4 justify-between">
+		<a href="/">
+			<Home size="40" color="white" />
+		</a>
+		<AuthButton />
+	</div>
 </div>

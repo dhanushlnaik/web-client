@@ -3,9 +3,10 @@
 	let coords: [number, number] = [0, 0];
 	import Map from '$lib/components/Map/Map.svelte';
 	import type { PageData } from './$types';
-	export let data: PageData;
-	$: ({ props } = data);
-	$: console.log(props);
+	import { page } from '$app/stores';
+	// export let data: PageData;
+	// $: ({ props } = data);
+	// $: console.log(props);
 </script>
 
 <!-- <Geolocation getPosition bind:coords />
@@ -14,4 +15,4 @@
 	<span>Longitude: {coords[0]}</span>
 </div>
 <AddEvent /> -->
-<Map data={props} />
+<Map data={$page.data} />

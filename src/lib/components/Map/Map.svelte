@@ -6,31 +6,20 @@
 	export let data;
 	import Geolocation from 'svelte-geolocation';
 	let coords: [number, number] = [13.1809592, 74.9358458];
-	let testCoords: Array<{ longitude: number; latitude: number }> = [
-		{
-			longitude: 139.7525,
-			latitude: 35.6846
-		},
-		{
-			longitude: 74.686156,
-			latitude: 13.633306
-		}
-	];
 	let map: any;
 	let mapContainer: any;
-	let allData = [...testCoords, ...data.posts];
+	let allData = [...data.posts];
 	config.apiKey = 'ofcoyTTLUZ3R3CZu3MXa';
 
 	onMount(() => {
-		// const initialState = { lng: coords[1], lat: coords[0], zoom: 14 };
 		map = new Map({
 			container: mapContainer,
-			style: MapStyle.STREETS,
+			style: MapStyle.SATELLITE,
 			center: [coords[1], coords[0]],
 			zoom: 17
 		});
 		map.on('click', (e: any) => {
-			const threshold = 0.0001;
+			const threshold = 0.001;
 			const exists = allData.find((coord) => {
 				const dx = coord.longitude - e.lngLat.lng;
 				const dy = coord.latitude - e.lngLat.lat;
@@ -42,6 +31,10 @@
 					latitude: e.lngLat.lat
 				});
 				allData = allData;
+				if (typeof window !== 'undefined') {
+					window.localStorage.setItem('lat', e.lngLat.lat);
+					window.localStorage.setItem('lng', e.lngLat.lng);
+				}
 			}
 		});
 
@@ -64,7 +57,8 @@
 						return {
 							type: 'Feature',
 							properties: {
-								description: '<p class="text-3xl">Chipi Chipi Chap Chapa</p>'
+								description:
+									'<a href="/feed"><button class="bg-four-500 text-white text-2xl px-4 py-4 rounded-xl">Add a new event</button></a>'
 							},
 							geometry: {
 								coordinates: [coord.longitude, coord.latitude],
@@ -89,15 +83,73 @@
 		});
 	});
 
+	// $: if (allData && map && map.isStyleLoaded()) {
+	// 	if (map.getSource('places')) {
+	// 		map.getSource('places').setData({
+	// 			type: 'FeatureCollection',
+	// 			features: allData.map((coord) => {
+	// 				return {
+	// 					type: 'Feature',
+	// 					properties: {
+	// 						description:
+	// 							'<a href="/feed"><button class="bg-four-500 text-white text-2xl px-4 py-4 rounded-xl">Add a new event</button></a>'
+	// 					},
+	// 					geometry: {
+	// 						coordinates: [coord.longitude, coord.latitude],
+	// 						type: 'Point'
+	// 					},
+	// 					id: 0
+	// 				};
+	// 			})
+	// 		});
+	// 	} else {
+	// 		map.addSource('places', {
+	// 			type: 'geojson',
+	// 			data: {
+	// 				type: 'FeatureCollection',
+	// 				features: allData.map((coord) => {
+	// 					return {
+	// 						type: 'Feature',
+	// 						properties: {
+	// 							description:
+	// 								'<a href="/feed"><button class="bg-four-500 text-white text-2xl px-4 py-4 rounded-xl">Hellot</button></a>'
+	// 						},
+	// 						geometry: {
+	// 							coordinates: [coord.longitude, coord.latitude],
+	// 							type: 'Point'
+	// 						},
+	// 						id: 0
+	// 					};
+	// 				})
+	// 			}
+	// 		});
+	// 		map.addLayer({
+	// 			id: 'places',
+	// 			type: 'circle',
+	// 			source: 'places',
+	// 			paint: {
+	// 				'circle-color': '#FF0000',
+	// 				'circle-radius': 10,
+	// 				'circle-stroke-width': 2,
+	// 				'circle-stroke-color': '#ffffff'
+	// 			}
+	// 		});
+	// 	}
+	// }
+
 	$: if (allData && map && map.isStyleLoaded()) {
 		if (map.getSource('places')) {
 			map.getSource('places').setData({
 				type: 'FeatureCollection',
 				features: allData.map((coord) => {
+					let description = coord.description
+						? coord.description
+						: '<a href="/feed"><button class="bg-four-500 text-white text-2xl px-4 py-4 rounded-xl">Add a new event</button></a>';
+
 					return {
 						type: 'Feature',
 						properties: {
-							description: '<p class="text-3xl">Chipi Chipi Chap Chapa</p>'
+							description: description
 						},
 						geometry: {
 							coordinates: [coord.longitude, coord.latitude],
@@ -113,10 +165,14 @@
 				data: {
 					type: 'FeatureCollection',
 					features: allData.map((coord) => {
+						let description = coord.description
+							? coord.description
+							: '<a href="/feed"><button class="bg-four-500 text-white text-2xl px-4 py-4 rounded-xl">Add a new event</button></a>';
+
 						return {
 							type: 'Feature',
 							properties: {
-								description: '<p class="text-3xl">Chipi Chipi Chap Chapa</p>'
+								description: description
 							},
 							geometry: {
 								coordinates: [coord.longitude, coord.latitude],
@@ -130,13 +186,8 @@
 			map.addLayer({
 				id: 'places',
 				type: 'circle',
-				source: 'places',
-				paint: {
-					'circle-color': '#FF0000',
-					'circle-radius': 10,
-					'circle-stroke-width': 2,
-					'circle-stroke-color': '#ffffff'
-				}
+				source: 'places'
+				// ... rest of your layer properties
 			});
 		}
 	}

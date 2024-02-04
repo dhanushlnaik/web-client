@@ -4,17 +4,19 @@
 	import * as Popover from '$lib/components/ui/popover';
 	import { Button } from '$lib/components/ui/button';
 	import { Smile } from 'lucide-svelte';
+	console.log($page.data.session);
 </script>
 
 <div class="sm:flex hidden">
 	{#if $page.data.session}
 		<Popover.Root>
 			<Popover.Trigger>
-				{#if $page.data.session.user?.image}
-					<img src={$page.data.session.user?.image} alt="avatar" class="w-12 rounded-full" />
+				<!-- {#if $page.data.session.user?.image}
+					<img src={$page.data.session.user.image} alt="avatar" class="w-12 rounded-full" />
 				{:else}
 					<Button>You</Button>
-				{/if}
+				{/if} -->
+				<Button>You</Button>
 			</Popover.Trigger>
 			<Popover.Content class="mt-2">
 				<div class="flex flex-col gap-5">
